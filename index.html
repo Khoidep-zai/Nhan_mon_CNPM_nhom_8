@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>Ứng dụng Quản lý Nhiệm vụ Cá nhân</header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="filter">
+        <label for="statusFilter">Status:</label>
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="completed">Completed</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
+      </div>
+    </aside>
+    <main class="main-content">
+      <form id="taskForm">
+        <input type="text" id="taskName" placeholder="Task name" required />
+        <input type="date" id="taskDueDate" required />
+        <select id="taskPriority">
+          <option value="High">High</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <textarea id="taskDesc" placeholder="Description (optional)"></textarea>
+        <button type="submit">Add Task</button>
+      </form>
+      <ul id="taskList"></ul>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
