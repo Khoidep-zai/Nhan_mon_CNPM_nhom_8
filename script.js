@@ -1,5 +1,5 @@
 const taskForm = document.getElementById("taskForm");
-const taskList = document.getElementById("taskList");
+const taskTableBody = document.querySelector("#taskTable tbody");
 const statusFilter = document.getElementById("statusFilter");
 
 let tasks = [];
@@ -24,7 +24,7 @@ taskForm.addEventListener("submit", function (e) {
       date,
       priority,
       desc,
-      completed: false
+      status: "Chưa bắt đầu"
     };
     tasks.push(task);
   }
@@ -35,35 +35,43 @@ taskForm.addEventListener("submit", function (e) {
 statusFilter.addEventListener("change", renderTasks);
 
 function renderTasks() {
-  taskList.innerHTML = "";
-  const filtered = tasks.filter(task => {
-    if (statusFilter.value === "all") return true;
-    return statusFilter.value === "completed" ? task.completed : !task.completed;
-  });
-
-  filtered.forEach(task => {
-    const li = document.createElement("li");
-    li.className = "task-item" + (task.completed ? " completed" : "");
-    li.innerHTML = `
-      <div>
-        <strong>${task.name}</strong><br/>
-        Due: ${task.date} | Priority: ${task.priority}<br/>
-        ${task.desc}
-      </div>
-      <div class="task-actions">
-        <button class="complete" onclick="toggleComplete(${task.id})">${task.completed ? 'Undo' : 'Done'}</button>
-        <button class="edit" onclick="editTask(${task.id})">Edit</button>
-        <button class="delete" onclick="deleteTask(${task.id})">Delete</button>
-      </div>
+  taskTableBody.innerHTML = "";
+  let filtered = tasks;
+  if (statusFilter.value === "completed") {
+    filtered = tasks.filter(task => task.status === "Đã hoàn thành");
+  } else if (statusFilter.value === "incomplete") {
+    filtered = tasks.filter(task => task.status !== "Đã hoàn thành");
+  }
+  filtered.forEach((task, idx) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx + 1}</td>
+      <td>${task.name}</td>
+      <td>${task.desc}</td>
+      <td>${task.date}</td>
+      <td>${task.priority}</td>
+      <td>${task.status}</td>
+      <td>
+        <button class="sua" onclick="editTask(${task.id})">Sửa</button>
+        <button class="sua" onclick="changeStatus(${task.id})">Đổi trạng thái</button>
+      </td>
+      <td>
+        <button class="xoa" onclick="deleteTask(${task.id})">Xóa</button>
+      </td>
     `;
-    taskList.appendChild(li);
+    taskTableBody.appendChild(tr);
   });
 }
 
-function toggleComplete(id) {
-  tasks = tasks.map(task =>
-    task.id === id ? { ...task, completed: !task.completed } : task
-  );
+function changeStatus(id) {
+  const task = tasks.find(t => t.id === id);
+  if (task.status === "Chưa bắt đầu") {
+    task.status = "Đang thực hiện";
+  } else if (task.status === "Đang thực hiện") {
+    task.status = "Đã hoàn thành";
+  } else {
+    task.status = "Chưa bắt đầu";
+  }
   renderTasks();
 }
 
@@ -80,3 +88,6 @@ function editTask(id) {
   document.getElementById("taskDesc").value = task.desc;
   editingTaskId = id;
 }
+
+// Khởi tạo bảng khi tải trang
+renderTasks();

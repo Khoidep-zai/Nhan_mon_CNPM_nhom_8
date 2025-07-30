@@ -11,27 +11,43 @@
   <div class="layout">
     <aside class="sidebar">
       <div class="filter">
-        <label for="statusFilter">Status:</label>
+        <label for="statusFilter">Trạng thái:</label>
         <select id="statusFilter">
-          <option value="all">All</option>
-          <option value="completed">Completed</option>
-          <option value="incomplete">Incomplete</option>
+          <option value="all">Tất cả</option>
+          <option value="completed">Đã hoàn thành</option>
+          <option value="incomplete">Chưa hoàn thành</option>
         </select>
       </div>
     </aside>
     <main class="main-content">
       <form id="taskForm">
-        <input type="text" id="taskName" placeholder="Task name" required />
+        <input type="text" id="taskName" placeholder="Tên nhiệm vụ" required />
         <input type="date" id="taskDueDate" required />
         <select id="taskPriority">
-          <option value="High">High</option>
-          <option value="Medium" selected>Medium</option>
-          <option value="Low">Low</option>
+          <option value="High">Cao</option>
+          <option value="Medium" selected>Trung bình</option>
+          <option value="Low">Thấp</option>
         </select>
-        <textarea id="taskDesc" placeholder="Description (optional)"></textarea>
-        <button type="submit">Add Task</button>
+        <textarea id="taskDesc" placeholder="Mô tả (không bắt buộc)"></textarea>
+        <button type="submit">Thêm nhiệm vụ</button>
       </form>
-      <ul id="taskList"></ul>
+      <table id="taskTable">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên Công Việc</th>
+            <th>Mô tả</th>
+            <th>Deadline</th>
+            <th>Độ ưu tiên</th>
+            <th>Trạng thái</th>
+            <th>Thay đổi</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dữ liệu sẽ được render bằng JS -->
+        </tbody>
+      </table>
     </main>
   </div>
 
